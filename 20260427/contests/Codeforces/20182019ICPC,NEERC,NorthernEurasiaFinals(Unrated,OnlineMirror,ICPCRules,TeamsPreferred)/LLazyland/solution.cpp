@@ -1,0 +1,72 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define int long long
+#define vi vector<int>
+#define all(x) (x).begin(), (x).end()
+#define umap unordered_map
+#define uset unordered_set
+#define print(v)                               \
+    ([&]() {                                   \
+        int n = v.size();                      \
+        for (int i = 0; i < n; i++) {          \
+            cout << v[i] << " \n"[i == n - 1]; \
+        }                                      \
+    }())
+#define scan(n)                                  \
+    ([&]() {                                     \
+        vi v(n);                                 \
+        for (int i = 0; i < n; i++) cin >> v[i]; \
+        return v;                                \
+    }())
+#define ceildiv(a, b) (((a) + (b) - 1) / (b))
+#define yes() cout << "YES" << nl
+#define no() cout << "NO" << nl
+#ifndef ONLINE_JUDGE
+#define debug(x) cerr << #x << " = " << x << nl;
+#define vdebug(a)                     \
+    cout << #a << " = ";              \
+    for (auto x : a) cout << x << sp; \
+    cout << nl;
+#else
+#define debug(x)
+#define vdebug(a)
+#endif
+const char nl = '\n';
+const char sp = ' ';
+void solve();
+
+int32_t main() {
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    int test = 1;
+    /* cin >> test; */
+    while (test--) {
+        solve();
+    }
+    return 0;
+}
+
+void solve() {
+    int n, k;
+    cin >> n >> k;
+    vector<int> a = scan(n);
+    vector<int> b = scan(n);
+    vector<vector<int>> jobs(k + 1);
+    for (int i = 0; i < n; i++) {
+        jobs[a[i]].push_back(b[i]);
+    }
+    vector<int> extras;
+    int missing = 0;
+    for (int i = 1; i <= k; i++) {
+        if (jobs[i].size() == 0) {
+            missing++;
+        } else {
+            sort(all(jobs[i]), greater<int>());
+            extras.insert(extras.end(), jobs[i].begin() + 1, jobs[i].end());
+        }
+    }
+    sort(all(extras));
+    int ans = accumulate(extras.begin(), extras.begin() + missing, 0LL);
+    cout << ans << nl;
+}
