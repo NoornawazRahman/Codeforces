@@ -1,0 +1,80 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define int long long
+#define all(x) (x).begin(), (x).end()
+#define umap unordered_map
+#define uset unordered_set
+#define print(v)                               \
+    ([&]() {                                   \
+        int n = v.size();                      \
+        for (int i = 0; i < n; i++) {          \
+            cout << v[i] << " \n"[i == n - 1]; \
+        }                                      \
+    }())
+#define scan(n)                     \
+    ([&]() {                        \
+        vector<int> v(n);           \
+        for (int i = 0; i < n; i++) \
+            cin >> v[i];            \
+        return v;                   \
+    }())
+#define ceildiv(a, b) (((a) + (b) - 1) / (b))
+#define yes() cout << "YES" << nl
+#define no() cout << "NO" << nl
+#ifndef ONLINE_JUDGE
+#define debug(x) cerr << #x << " = " << x << nl;
+#define vdebug(a)        \
+    cout << #a << " = "; \
+    for (auto x : a)     \
+        cout << x << sp; \
+    cout << nl;
+#else
+#define debug(x)
+#define vdebug(a)
+#endif
+const char nl = '\n';
+const char sp = ' ';
+void solve();
+
+int32_t main() {
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    int test = 1;
+    cin >> test;
+    while (test--) {
+        solve();
+    }
+    return 0;
+}
+
+void solve() {
+    int n;
+    cin >> n;
+    vector<int> p = scan(n);
+    int c0 = 0;
+    for (int i = 0; i < n; i++) {
+        if (p[i] == 0)
+            c0++;
+        if (c0 > 1)
+            break;
+    }
+    if (c0 == 1) {
+        int missing = 0;
+        for (int i = 0; i < n; i++) {
+            missing = missing ^ p[i] ^ (i + 1);
+        }
+        for (int i = 0; i < n; i++) {
+            if (p[i] == 0) {
+                p[i] = missing;
+            }
+        }
+    }
+    // vdebug(p);
+    int l = 0, r = n - 1;
+    while (l < n && p[l] == l + 1)
+        l++;
+    while (r >= 0 && p[r] == r + 1)
+        r--;
+    cout << max(0LL, r - l + 1) << nl;
+}
